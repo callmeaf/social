@@ -4,6 +4,7 @@ namespace Callmeaf\Social\App\Http\Controllers\Admin\V1;
 
 use Callmeaf\Base\App\Http\Controllers\Admin\V1\AdminController;
 use Callmeaf\Social\App\Repo\Contracts\SocialRepoInterface;
+use Callmeaf\SocialBot\App\Repo\Contracts\SocialBotRepoInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -87,5 +88,16 @@ class SocialController extends AdminController implements HasMiddleware
     public function forceDestroy(string $id)
     {
         return $this->socialRepo->forceDelete(id: $id);
+    }
+
+    public function sendMessage(string $id)
+    {
+        $social = $this->socialRepo->findById(value: $id);
+        /**
+         * @var SocialBotRepoInterface $socialBotRepo
+         */
+        $socialBotRepo = app(SocialBotRepoInterface::class);
+        $socialBot = $socialBotRepo->findById(value: $this->request->get('social_bot_id'));
+        return $this->socialRepo->sendMessage(message: $this->request->get('message'),socialType: $social->resource->type,socialBotConfig: $socialBot->resource);
     }
 }
