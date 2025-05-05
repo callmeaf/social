@@ -6,6 +6,8 @@ use Callmeaf\Base\App\Models\BaseModel;
 use Callmeaf\Base\App\Traits\Model\HasDate;
 use Callmeaf\Base\App\Traits\Model\HasStatus;
 use Callmeaf\Base\App\Traits\Model\HasType;
+use Callmeaf\SocialBot\App\Repo\Contracts\SocialBotRepoInterface;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Social extends BaseModel
@@ -28,5 +30,14 @@ class Social extends BaseModel
         return [
             ...(self::config()['enums'] ?? []),
         ];
+    }
+
+    public function bots(): HasMany
+    {
+        /**
+         * @var SocialBotRepoInterface $socialBotRepo
+         */
+        $socialBotRepo = app(SocialBotRepoInterface::class);
+        return $this->hasMany($socialBotRepo->getModel()::class);
     }
 }

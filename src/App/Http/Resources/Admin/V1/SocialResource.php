@@ -3,6 +3,7 @@
 namespace Callmeaf\Social\App\Http\Resources\Admin\V1;
 
 use Callmeaf\Social\App\Models\Social;
+use Callmeaf\SocialBot\App\Repo\Contracts\SocialBotRepoInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,6 +19,10 @@ class SocialResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /**
+         * @var SocialBotRepoInterface $socialBotRepo
+         */
+        $socialBotRepo = app(SocialBotRepoInterface::class);
         return [
             'id' => $this->id,
             'status' => $this->status,
@@ -31,6 +36,7 @@ class SocialResource extends JsonResource
             'updated_at_text' => $this->updatedAtText(),
             'deleted_at' => $this->deleted_at,
             'deleted_at_text' => $this->deletedAtText(),
+            'bots' => $socialBotRepo->toResourceCollection($this->whenLoaded('bots')),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace Callmeaf\Social\App\Http\Controllers\Admin\V1;
 
 use Callmeaf\Base\App\Http\Controllers\Admin\V1\AdminController;
 use Callmeaf\Social\App\Repo\Contracts\SocialRepoInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -26,7 +27,9 @@ class SocialController extends AdminController implements HasMiddleware
      */
     public function index()
     {
-        return $this->socialRepo->latest()->search()->paginate();
+        return $this->socialRepo->latest()->builder(fn(Builder $query) => $query->with([
+            'bots'
+        ]))->search()->paginate();
     }
 
     /**
