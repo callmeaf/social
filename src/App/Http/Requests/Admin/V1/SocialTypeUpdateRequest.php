@@ -2,7 +2,9 @@
 
 namespace Callmeaf\Social\App\Http\Requests\Admin\V1;
 
+use Callmeaf\Social\App\Enums\SocialType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class SocialTypeUpdateRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class SocialTypeUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type' => ['required',new Enum(SocialType::class)]
         ];
     }
 }

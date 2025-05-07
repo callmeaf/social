@@ -2,7 +2,9 @@
 
 namespace Callmeaf\Social\App\Http\Requests\Admin\V1;
 
+use Callmeaf\Social\App\Enums\SocialStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class SocialStatusUpdateRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class SocialStatusUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'status' => ['required',new Enum(SocialStatus::class)]
         ];
     }
 }
