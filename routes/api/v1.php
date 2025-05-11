@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Route;
     $middleware,
 ] = Base::getRouteConfigFromRepo(repo: \Callmeaf\Social\App\Repo\Contracts\SocialRepoInterface::class);
 
-Route::apiResource($prefix, $controllers['social'])->middleware($middleware);
+Route::apiResource($prefix, $controllers['social'])->only([
+    'index',
+    'show'
+])->middleware($middleware);
 // Route::prefix($prefix)->as($as)->middleware($middleware)->controller($controllers['social'])->group(function () {
     // Route::get('trashed/list', 'trashed');
     // Route::prefix('{social}')->group(function () {
