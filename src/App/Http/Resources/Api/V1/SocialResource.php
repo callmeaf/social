@@ -20,9 +20,17 @@ class SocialResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'status' => $this->status,
+            'status_text' => $this->statusText,
+            'type' => $this->type,
+            'type_text' => $this->typeText,
+            'chat_id' => $this->chat_id,
             'created_at' => $this->created_at,
+            'created_at_text' => $this->createdAtText(),
             'updated_at' => $this->updated_at,
+            'updated_at_text' => $this->updatedAtText(),
             'deleted_at' => $this->deleted_at,
+            'deleted_at_text' => $this->deletedAtText(),
         ];
     }
 }
